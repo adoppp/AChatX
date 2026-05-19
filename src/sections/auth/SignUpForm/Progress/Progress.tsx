@@ -28,7 +28,7 @@ export const Progress: FC<ProgressProps> = ({ step }) => {
             >
                 <span className={cn('signup__progress--box')}>
                     <span className={cn('signup__progress--number')}>{s.id}</span>
-                    {IconCheckMark}
+                    <IconCheckMark/>
                 </span>
 
                 <span className={cn('signup__progress--title')}>{s.title}</span>

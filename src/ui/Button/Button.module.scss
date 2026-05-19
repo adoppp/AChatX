@@ -96,7 +96,7 @@
     }
 
     & .content svg {
-        stroke: #fff;
+        color: #fff;
     }
 
     &::after {
@@ -145,7 +145,7 @@
         box-shadow: 0 2px 12px 8px var(--accent-fog);
 
         & .content svg {
-            stroke: var(--accent-hover);
+            color: var(--accent-hover);
         }
     }
 
@@ -157,7 +157,7 @@
             inset 0 0 6px 3px var(--accent-fog);
 
         & .content svg {
-            stroke: var(--accent-active);
+            color: var(--accent-active);
         }
     }
 
@@ -172,7 +172,7 @@
     }
 
     & .content svg {
-        stroke: var(--accent-fog);
+        color: var(--accent-fog);
     }
 }
 
@@ -207,7 +207,7 @@
     }
 
     & .content svg {
-        stroke: #fff;
+        color: #fff;
     }
 
     &::after {

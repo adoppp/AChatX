@@ -18,6 +18,7 @@ export const SignUpForm: FC = () => {
         isLoading,
         isResended,
         timeLeft,
+        isLoadingResend,
         resendEmail,
         ActiveStepComponent,
         canGoNext,
@@ -47,6 +48,7 @@ export const SignUpForm: FC = () => {
                                 maxStep={maxStep}
                                 isResended={isResended}
                                 timeLeft={timeLeft}
+                                isLoadingResend={isLoadingResend}
                                 resendEmail={resendEmail}
                                 _next={_next}
                                 _prev={_prev}

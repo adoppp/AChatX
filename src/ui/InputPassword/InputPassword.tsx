@@ -10,7 +10,7 @@ export const InputPassword: FC<InputProps> = ({ ...props }) => {
     return (
         <Input
             type={visible ? 'text' : 'password'}
-            rightIcon={visible ? IconClosedEye : IconEye}
+            rightIcon={visible ? <IconClosedEye /> : <IconEye />}
             onClickRight={() => setVisible(!visible)}
             {...props}
         />

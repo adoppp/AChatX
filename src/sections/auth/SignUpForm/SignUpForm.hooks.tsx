@@ -39,9 +39,10 @@ export const useSignUpForm = () => {
     const [formState, setFormState] = useState<FormState>(initialFormState);
     const [errorState, setErrorState] = useState<ErrorState>(initialErrorsState);
     const [passwdErrors, setPasswdErrors] = useState<IsPasswordValid>(initialIsPasswordValid);
-    const [step, setStep] = useState<Step>(1);
+    const [step, setStep] = useState<Step>(3);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [timeLeft, setTimeLeft] = useState<number>(5);
+    const [isLoadingResend, setIsLoadingResend] = useState<boolean>(false);
+    const [timeLeft, setTimeLeft] = useState<number>(30);
     const [isResended, setIsResended] = useState<boolean>(false);
     const { openModal, closeModal } = useModalContext();
     const currentUser = auth.currentUser;
@@ -141,8 +142,6 @@ export const useSignUpForm = () => {
 
                 _next();
             } catch (error: unknown) {
-                setIsLoading(false);
-
                 if (error instanceof FirebaseError) {
                     openModal({
                         type: 'error',
@@ -165,7 +164,7 @@ export const useSignUpForm = () => {
         if (isResended || !currentUser) return;
 
         try {
-            setIsLoading(true);
+            setIsLoadingResend(true);
 
             await verifyByEmail(currentUser);
 
@@ -182,8 +181,10 @@ export const useSignUpForm = () => {
                     modalProps: { title: 'Unexpected error', message: error.message, button: { label: 'Ok', onClick: closeModal } },
                 });
             }
+
+            setTimeLeft(30);
         } finally {
-            setIsLoading(false);
+            setIsLoadingResend(false);
         }
     };
 
@@ -208,6 +209,7 @@ export const useSignUpForm = () => {
         maxStep,
         timeLeft,
         isResended,
+        isLoadingResend,
         resendEmail,
         ActiveStepComponent,
         canGoNext,

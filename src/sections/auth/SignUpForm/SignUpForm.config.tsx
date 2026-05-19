@@ -7,7 +7,8 @@ import type {
 import { StepPassword } from '@/sections/auth/SignUpForm/steps/StepPassword/StepPassword';
 import { StepPersonal } from '@/sections/auth/SignUpForm/steps/StepPersonal/StepPersonal';
 import { StepVerify } from '@/sections/auth/SignUpForm/steps/StepVerify/StepVerify';
-import { IconEmail, IconLock, IconUser } from '@/assets/svg';
+import { IconEmail, IconLockAnimated, IconUser } from '@/assets/svg';
+import type { FC } from 'react';
 
 export const STEPS = [1, 2, 3] as const;
 export type Step = (typeof STEPS)[number];
@@ -19,21 +20,22 @@ export const stepComponents = {
 } as const;
 
 export const stepIcons = {
-    1: IconUser,
-    2: (isOpen: boolean) => <IconLock isOpen={isOpen} />,
-    3: IconEmail,
+    1: <IconUser />,
+    2: (isOpen: boolean) => <IconLockAnimated isOpen={isOpen} />,
+    3: <IconEmail />,
 } as const;
 
+interface StepIconHandlerProps {
+    step: Step,
+    isActive?: boolean
+}
 
-export const StepIcon = (step: Step) => {
+export const StepIconHandler: FC<StepIconHandlerProps> = ({ step, isActive = false }) => {
     switch (step) {
-        case 1: 
-            return IconUser
-        
-        case 2: 
-            return (isOpen: boolean) => <IconLock isOpen={isOpen} />
+        case 2:
+            return stepIcons[step](isActive);
 
-        case 3: 
-            return IconEmail
+        default:
+            return stepIcons[step];
     };
 };

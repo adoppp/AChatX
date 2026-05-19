@@ -4,14 +4,13 @@ import classNames from 'classnames/bind';
 import styles from '@/sections/auth/SignUpForm/SignUpForm.module.scss';
 
 import { IconCheckMark, IconClose } from '@/assets/svg';
-import { Loader } from '@/components/Loader/Loader';
 import type {
     IsPasswordValid,
     StepPasswordProps,
 } from '@/sections/auth/SignUpForm/SignUpForm.types';
 import { Button } from '@/ui/Button/Button';
 import { InputPassword } from '@/ui/InputPassword/InputPassword';
-import { stepIcons } from '@/sections/auth/SignUpForm/SignUpForm.config';
+import { StepIconHandler } from '@/sections/auth/SignUpForm/SignUpForm.config';
 
 const passwordErrorMessages: Record<keyof IsPasswordValid, string> = {
     isEightCharacters: 'At least 8 characters',
@@ -34,8 +33,7 @@ export const StepPassword: FC<StepPasswordProps> = ({
     onSubmit,
 }) => {
     const formId = useId();
-    const hasErrors = Object.values(passwdErrors).some((value) => value === false);
-    const stepIconPassword = stepIcons[step];
+    const isPasswordValid = Object.values(passwdErrors).some(Boolean);
 
     const items: ReactNode = Object.entries(passwdErrors).map(([key, isValid]) => {
         const typedKey = key as keyof IsPasswordValid;
@@ -43,7 +41,7 @@ export const StepPassword: FC<StepPasswordProps> = ({
         return (
             <li key={key} className={cn('password__item', isValid && 'password__item--valid')}>
                 <span className={cn('password__item--icon')}>
-                    {isValid ? IconCheckMark : IconClose}
+                    {isValid ? <IconCheckMark /> : <IconClose />}
                 </span>
                 <span className={cn('password__item--rule')}>
                     {passwordErrorMessages[typedKey]}
@@ -55,37 +53,38 @@ export const StepPassword: FC<StepPasswordProps> = ({
     return (
         <>
             <div className={cn('signup__description')}>
-                        <div className={cn('signup__description--icon')}></div>
-                        <h2 className={cn('signup__description--title')}>Create a password</h2>
-                        <p className={cn('signup__description--description')}>
-                            Choose a strong password to secure your account
-                        </p>
-                    </div>
+                {/* isActive = isOpen. isOpen = not valid. If invalid => opened. */}
+                <div className={cn('signup__description--icon')}><StepIconHandler step={step} isActive={!isPasswordValid} /></div>
+                <h2 className={cn('signup__description--title')}>Create a password</h2>
+                <p className={cn('signup__description--description')}>
+                    Choose a strong password to secure your account
+                </p>
+            </div>
 
-                    <div className={cn('signup__content')}>
-                        <form className={cn('signup__form')} id={formId} onSubmit={onSubmit}>
-                            <InputPassword
-                                label="Password"
-                                value={formState.password}
-                                onChange={onChange('password')}
-                                error={hasErrors ? 'Invalid password' : null}
-                            />
-                        </form>
-                        <ul className={cn('password__list')}>{items}</ul>
-                    </div>
+            <div className={cn('signup__content')}>
+                <form className={cn('signup__form')} id={formId} onSubmit={onSubmit}>
+                    <InputPassword
+                        label="Password"
+                        value={formState.password}
+                        onChange={onChange('password')}
+                        error={isPasswordValid ? null : 'Invalid password'}
+                    />
+                </form>
+                <ul className={cn('password__list')}>{items}</ul>
+            </div>
 
-                    <div className={cn('signup__button')}>
-                        <Button variant="secondary" onClick={_prev} disabled={step === 1}>
-                            Previous
-                        </Button>
-                        <Button
-                            form={formId}
-                            type="submit"
-                            disabled={step === maxStep || !canGoNext()}
-                        >
-                            Submit
-                        </Button>
-                    </div>
+            <div className={cn('signup__button')}>
+                <Button variant="secondary" onClick={_prev} disabled={step === 1}>
+                    Previous
+                </Button>
+                <Button
+                    form={formId}
+                    type="submit"
+                    disabled={step === maxStep || !canGoNext()}
+                >
+                    Submit
+                </Button>
+            </div>
         </>
     );
 };

@@ -6,7 +6,7 @@ import styles from '@/sections/auth/SignUpForm/SignUpForm.module.scss';
 import type { StepFormProps } from '@/sections/auth/SignUpForm/SignUpForm.types';
 import { Input } from '@/ui/Input/Input';
 import { Button } from '@/ui/Button/Button';
-import { stepIcons } from '@/sections/auth/SignUpForm/SignUpForm.config';
+import { StepIconHandler, stepIcons } from '@/sections/auth/SignUpForm/SignUpForm.config';
 
 const cn = classNames.bind(styles);
 
@@ -19,11 +19,11 @@ export const StepPersonal: FC<StepFormProps> = ({
     canGoNext,
     onChange,
 }) => {
-    const StepIcon = step === 1 && stepIcons[step];
+
     return (
         <>
             <div className={cn('signup__description')}>
-                <div className={cn('signup__description--icon', 'personal__icon')}>{StepIcon}</div>
+                <div className={cn('signup__description--icon', 'personal__icon')}><StepIconHandler step={step} /></div>
                 <h2 className={cn('signup__description--title')}>Type your name and email</h2>
                 <p className={cn('signup__description--description')}>
                     All users can see your name and email

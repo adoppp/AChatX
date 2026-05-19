@@ -35,6 +35,7 @@ export type BaseStepProps = {
 export type VerifyStepProps = BaseStepProps & {
     isResended: boolean;
     timeLeft: number;
+    isLoadingResend: boolean;
     resendEmail: () => void;
 }
 
