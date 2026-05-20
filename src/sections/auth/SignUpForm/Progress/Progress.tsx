@@ -2,9 +2,8 @@ import classNames from 'classnames/bind';
 import type { FC } from 'react';
 
 import { IconCheckMark } from '@/assets/svg';
-import type { Step } from '@/sections/auth/SignUpForm/SignUpForm.config';
+import { stepsData, type Step } from '@/sections/auth/SignUpForm/SignUpForm.config';
 import styles from '@/sections/auth/SignUpForm/SignUpForm.module.scss';
-import { STEPS_UI } from '@/sections/auth/SignUpForm/SignUpForm.types';
 
 interface ProgressProps {
     step: Step;
@@ -13,13 +12,16 @@ interface ProgressProps {
 const cn = classNames.bind(styles);
 
 export const Progress: FC<ProgressProps> = ({ step }) => {
-    const items = STEPS_UI.map((s) => {
-        const isActive = step === s.id;
-        const isDone = step > s.id;
+    const items = Object.entries(stepsData).map(([id, data]) => {
+        const numericId = Number(id) as Step;
+
+        const isActive = step === numericId;
+        const isDone = step > numericId;
+
 
         return (
             <li
-                key={s.id}
+                key={id}
                 className={cn(
                     'signup__progress--item',
                     isActive && 'step__active',
@@ -27,11 +29,11 @@ export const Progress: FC<ProgressProps> = ({ step }) => {
                 )}
             >
                 <span className={cn('signup__progress--box')}>
-                    <span className={cn('signup__progress--number')}>{s.id}</span>
+                    <span className={cn('signup__progress--number')}>{id}</span>
                     <IconCheckMark/>
                 </span>
 
-                <span className={cn('signup__progress--title')}>{s.title}</span>
+                <span className={cn('signup__progress--title')}>{data.progress.progressTitle}</span>
             </li>
         );
     });

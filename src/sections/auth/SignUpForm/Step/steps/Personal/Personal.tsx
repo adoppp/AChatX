@@ -3,14 +3,14 @@ import classNames from 'classnames/bind';
 
 import styles from '@/sections/auth/SignUpForm/SignUpForm.module.scss';
 
-import type { StepFormProps } from '@/sections/auth/SignUpForm/SignUpForm.types';
 import { Input } from '@/ui/Input/Input';
 import { Button } from '@/ui/Button/Button';
-import { StepIconHandler, stepIcons } from '@/sections/auth/SignUpForm/SignUpForm.config';
+import { StepIconHandler } from '../../StepIconHandler';
+import type { BaseStepFormProps } from '../../Step.types';
 
 const cn = classNames.bind(styles);
 
-export const StepPersonal: FC<StepFormProps> = ({
+export const Personal: FC<BaseStepFormProps> = ({
     formState,
     errorState,
     step,
@@ -22,14 +22,6 @@ export const StepPersonal: FC<StepFormProps> = ({
 
     return (
         <>
-            <div className={cn('signup__description')}>
-                <div className={cn('signup__description--icon', 'personal__icon')}><StepIconHandler step={step} /></div>
-                <h2 className={cn('signup__description--title')}>Type your name and email</h2>
-                <p className={cn('signup__description--description')}>
-                    All users can see your name and email
-                </p>
-            </div>
-
             <div className={cn('signup__content')}>
                 <form className={cn('signup__form')}>
                     <Input
@@ -49,7 +41,7 @@ export const StepPersonal: FC<StepFormProps> = ({
                 </form>
             </div>
 
-            <div className={cn('signup__button', 'personal__button')}>
+            <div className={cn('signup__button', `signup__button-${step}`)}>
                 <Button onClick={_next} disabled={step === maxStep || !canGoNext()}>
                     Next step
                 </Button>

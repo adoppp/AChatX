@@ -20,6 +20,9 @@
         padding: 24px 16px;
         border-radius: $border-radius;
         border: 1px solid var(--accent-fog);
+        margin: 0 auto;
+        max-width: 420px;
+        width: 100%;
 
         transition: $transition-smooth;
 
@@ -60,6 +63,11 @@
                 stroke: white;
 
                 animation: iconAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            &-1 svg {
+                transform-origin: top center;
+                animation: iconAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), personalIcon 2.5s ease-in-out 0.6s infinite;
             }
         }
 
@@ -196,19 +204,19 @@
         gap: 12px;
 
         margin-top: 36px;
+
+        &-1 {
+            justify-content: right;
+        }
+
+        &-3 {
+            & button {
+                width: 100%;
+            }
+        }
     }
 }
 
-.personal {
-    &__button {
-        justify-content: right;
-    }
-
-    &__icon svg {
-        transform-origin: top center;
-        animation: iconAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), personalIcon 2.5s ease-in-out 0.6s infinite;
-    }
-}
 
 .password {
     &__list {
@@ -268,14 +276,6 @@
 
     &__rule {
         @include meta();
-    }
-}
-
-.verify {
-    &__button {
-        & button {
-            width: 100%;
-        }
     }
 }
 

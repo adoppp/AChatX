@@ -1,41 +1,48 @@
-import type {
-    StepFormProps,
-    StepPasswordProps,
-    VerifyStepProps,
-} from '@/sections/auth/SignUpForm/SignUpForm.types';
+import { IconArrowLeft, IconEmail, IconLockAnimated, IconUser } from '@/assets/svg';
+import { Step } from './Step/Step';
 
-import { StepPassword } from '@/sections/auth/SignUpForm/steps/StepPassword/StepPassword';
-import { StepPersonal } from '@/sections/auth/SignUpForm/steps/StepPersonal/StepPersonal';
-import { StepVerify } from '@/sections/auth/SignUpForm/steps/StepVerify/StepVerify';
-import { IconEmail, IconLockAnimated, IconUser } from '@/assets/svg';
-import type { FC } from 'react';
+// Component (body of the step), icon, progressTitle and progressDescription for progressbar, title of step, description of step
+export const stepsData = {
+    1: {
+        component: Step.Personal,
+        progress: {
+            progressTitle: 'Personal info',
+        },
+        header: {
+            icon: <IconUser />,
+            title: 'Type your name and email',
+            description: 'All users can see your name and email'
+        }
+    },
 
-export const STEPS = [1, 2, 3] as const;
-export type Step = (typeof STEPS)[number];
+    2: {
+        component: Step.Password,
+        progress: {
+            progressTitle: 'Password',
+        },
+        header: {
+            icon: (isOpen: boolean) => (
+                <IconLockAnimated isOpen={isOpen} />
+            ),
+            title: 'Create a password',
+            description: 'Choose a strong password to secure your account'
+        }
+    },
 
-export const stepComponents = {
-    1: (props: StepFormProps) => <StepPersonal {...props} />,
-    2: (props: StepPasswordProps) => <StepPassword {...props} />,
-    3: (props: VerifyStepProps) => <StepVerify {...props} />,
+    3: {
+        component: Step.Verify,
+        progress: {
+            progressTitle: 'Verify',
+        },
+        header: {
+            icon: <IconEmail />,
+            title: 'Verify your email',
+            description: 'We have send verification link to your email'
+        }
+    },
 } as const;
 
-export const stepIcons = {
-    1: <IconUser />,
-    2: (isOpen: boolean) => <IconLockAnimated isOpen={isOpen} />,
-    3: <IconEmail />,
-} as const;
-
-interface StepIconHandlerProps {
-    step: Step,
-    isActive?: boolean
-}
-
-export const StepIconHandler: FC<StepIconHandlerProps> = ({ step, isActive = false }) => {
-    switch (step) {
-        case 2:
-            return stepIcons[step](isActive);
-
-        default:
-            return stepIcons[step];
-    };
-};
+// step number
+export type Step = keyof typeof stepsData;
+// to find max step
+export const STEPS = Object.keys(stepsData).map(Number) as Step[];

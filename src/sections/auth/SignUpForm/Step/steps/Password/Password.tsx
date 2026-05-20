@@ -6,11 +6,11 @@ import styles from '@/sections/auth/SignUpForm/SignUpForm.module.scss';
 import { IconCheckMark, IconClose } from '@/assets/svg';
 import type {
     IsPasswordValid,
-    StepPasswordProps,
 } from '@/sections/auth/SignUpForm/SignUpForm.types';
 import { Button } from '@/ui/Button/Button';
 import { InputPassword } from '@/ui/InputPassword/InputPassword';
-import { StepIconHandler } from '@/sections/auth/SignUpForm/SignUpForm.config';
+import { StepIconHandler } from '../../StepIconHandler';
+import type { StepPasswordProps } from '../../Step.types';
 
 const passwordErrorMessages: Record<keyof IsPasswordValid, string> = {
     isEightCharacters: 'At least 8 characters',
@@ -22,9 +22,9 @@ const passwordErrorMessages: Record<keyof IsPasswordValid, string> = {
 
 const cn = classNames.bind(styles);
 
-export const StepPassword: FC<StepPasswordProps> = ({
+export const Password: FC<StepPasswordProps> = ({
     formState,
-    passwdErrors,
+    errorState,
     step,
     maxStep,
     _prev,
@@ -33,10 +33,13 @@ export const StepPassword: FC<StepPasswordProps> = ({
     onSubmit,
 }) => {
     const formId = useId();
+    const passwdErrors = errorState.password;
     const isPasswordValid = Object.values(passwdErrors).every(Boolean);
 
     const items: ReactNode = Object.entries(passwdErrors).map(([key, isValid]) => {
         const typedKey = key as keyof IsPasswordValid;
+        console.log(key)
+        console.log(isValid)
 
         return (
             <li key={key} className={cn('password__item', isValid && 'password__item--valid')}>
@@ -52,15 +55,6 @@ export const StepPassword: FC<StepPasswordProps> = ({
 
     return (
         <>
-            <div className={cn('signup__description')}>
-                {/* isActive = isOpen. isOpen = not valid. If invalid => opened. */}
-                <div className={cn('signup__description--icon')}><StepIconHandler step={step} isActive={!isPasswordValid} /></div>
-                <h2 className={cn('signup__description--title')}>Create a password</h2>
-                <p className={cn('signup__description--description')}>
-                    Choose a strong password to secure your account
-                </p>
-            </div>
-
             <div className={cn('signup__content')}>
                 <form className={cn('signup__form')} id={formId} onSubmit={onSubmit}>
                     <InputPassword

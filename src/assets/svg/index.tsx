@@ -95,7 +95,11 @@ export const IconUser = () => {
     </svg>
 };
 
-export const IconLockAnimated = ({ isOpen }: { isOpen: boolean }) => {
+export const IconLockAnimated = ({
+    isOpen,
+}: {
+    isOpen: boolean;
+}) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -104,14 +108,75 @@ export const IconLockAnimated = ({ isOpen }: { isOpen: boolean }) => {
             viewBox="0 -1 25 24"
             fill="none"
         >
+            <style>
+                {`
+                    @keyframes hook-bounce {
+                        0% {
+                            transform:
+                                rotate(28deg)
+                                translateX(2px)
+                                translateY(-1px);
+                        }
+
+                        /* FIRST DROP */
+
+                        8% {
+                            transform:
+                                rotate(6deg)
+                                translateX(0px)
+                                translateY(0px);
+                        }
+
+                        16% {
+                            transform:
+                                rotate(34deg)
+                                translateX(3px)
+                                translateY(-1px);
+                        }
+
+                        /* SECOND SLOWER DROP */
+
+                        28% {
+                            transform:
+                                rotate(12deg)
+                                translateX(1px)
+                                translateY(0px);
+                        }
+
+                        40% {
+                            transform:
+                                rotate(28deg)
+                                translateX(2px)
+                                translateY(-1px);
+                        }
+
+                        /* PAUSE */
+
+                        100% {
+                            transform:
+                                rotate(28deg)
+                                translateX(2px)
+                                translateY(-1px);
+                        }
+                    }
+                `}
+            </style>
+
             <g
                 style={{
                     transformOrigin: '18px 10px',
+
                     transform: isOpen
                         ? 'rotate(28deg) translateX(2px) translateY(-1px)'
                         : 'rotate(0deg)',
-                    transition:
-                        'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+
+                    transition: !isOpen
+                        ? 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                        : 'none',
+
+                    animation: isOpen
+                        ? 'hook-bounce 2.4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite'
+                        : 'none',
                 }}
             >
                 <path
@@ -121,21 +186,24 @@ export const IconLockAnimated = ({ isOpen }: { isOpen: boolean }) => {
                     strokeLinejoin="round"
                 />
             </g>
+
             <path
                 d="M17 22H7C3 22 2 21 2 17V15C2 11 3 10 7 10H17C21 10 22 11 22 15V17C22 21 21 22 17 22Z"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
+
             <circle
                 cx="12"
                 cy="16"
                 r="1"
                 style={{
-                    opacity: isOpen ? 0.5 : 1,
-                    transition: 'opacity 0.2s ease',
+                    opacity: isOpen ? 0.45 : 1,
+                    transition: 'opacity 0.25s ease',
                 }}
             />
+
             <rect
                 x="3"
                 y="11"
