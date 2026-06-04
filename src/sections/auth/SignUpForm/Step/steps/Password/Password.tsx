@@ -11,7 +11,7 @@ import type { StepPasswordProps } from '@/sections/auth/SignUpForm/Step/Step.typ
 import { useSignUpFormContext } from '@/sections/auth/SignUpForm/SignUpFormProvider';
 
 const passwordErrorMessages: Record<keyof IsPasswordValid, string> = {
-    isEightCharacters: 'At least 8 characters',
+    isEnoughCharacters: 'At least 12 characters',
     isOneUppercase: 'At least one uppercase letter',
     isOneLowercase: 'At least one lowercase letter',
     isOneNumber: 'At least one number',
@@ -56,6 +56,12 @@ export const Password: FC<StepPasswordProps> = ({
                         value={formState.password}
                         onChange={onChange('password')}
                         error={isPasswordValid ? null : 'Invalid password'}
+                    />
+                    <InputPassword
+                        label="Confirm your password"
+                        value={formState.confirmPassword}
+                        onChange={onChange('confirmPassword')}
+                        error={errorState.confirmPassword}
                     />
                 </form>
                 <ul className={cn('password__list')}>{items}</ul>

@@ -7,8 +7,10 @@
     height: 100dvh;
 
     &__header {
+        @include glassBg();
+
         border-bottom: 1px solid var(--accent-fog);
-        margin-bottom: 32px;
+        width: 100%;
 
         &--container {
             @include container();
@@ -31,5 +33,20 @@
 
     &__section-container {
         @include container();
+        position: relative;
+        padding-top: 32px;
+    }
+
+    &__section-bg {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100dvw;
+        height: 100dvh;
+        background-image: url('../../assets//img//bg_light.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        opacity: 0.1;
     }
 }

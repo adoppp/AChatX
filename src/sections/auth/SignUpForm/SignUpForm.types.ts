@@ -6,6 +6,7 @@ export interface FormState {
     username: string;
     email: string;
     password: string;
+    confirmPassword: string;
 }
 
 export type FieldTypes = keyof FormState;
@@ -14,10 +15,11 @@ export interface ErrorState {
     username: string | null;
     email: string | null;
     password: IsPasswordValid;
+    confirmPassword: string | null;
 }
 
 export interface IsPasswordValid {
-    isEightCharacters: boolean;
+    isEnoughCharacters: boolean;
     isOneUppercase: boolean;
     isOneLowercase: boolean;
     isOneNumber: boolean;

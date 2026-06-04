@@ -16,18 +16,20 @@ const initialFormState: FormState = {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
 };
 
 const initialErrorsState: ErrorState = {
     username: null,
     email: null,
     password: {
-        isEightCharacters: false,
+        isEnoughCharacters: false,
         isOneUppercase: false,
         isOneLowercase: false,
         isOneNumber: false,
         isOneSpecialSymbol: false,
     },
+    confirmPassword: null
 };
 
 export const useSignUpForm = () => {
@@ -42,12 +44,12 @@ export const useSignUpForm = () => {
     const canGoNext = () => {
         if (step === 1) {
             return Boolean(
-                !errorState.username && !errorState.email && formState.username && formState.email,
+                !errorState.username && !errorState.email && formState.username.trim() !== '' && formState.email.trim() !== '',
             );
         }
 
         if (step === 2) {
-            return Object.values(errorState.password).every(Boolean);
+            return Object.values(errorState.password).every(Boolean)  && !errorState.confirmPassword;
         }
 
         return true;
@@ -89,12 +91,16 @@ export const useSignUpForm = () => {
 
             case 'password':
                 return {
-                    isEightCharacters: value.length >= 8,
+                    isEnoughCharacters: value.length >= 12,
                     isOneUppercase: /[A-Z]/.test(value),
                     isOneLowercase: /[a-z]/.test(value),
                     isOneNumber: /[0-9]/.test(value),
                     isOneSpecialSymbol: /[^A-Za-z0-9]/.test(value),
                 };
+
+            case 'confirmPassword':
+                if (state[field].trim() !== state.password.trim()) return 'The password does not match';
+                return null;
 
             default:
                 return null;

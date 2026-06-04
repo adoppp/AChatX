@@ -24,6 +24,7 @@ export const AuthLayout: FC = () => {
             <section className={cn('auth__section-container')}>
                 <Outlet />
             </section>
+            <div className={cn('auth__section-bg')}></div>
         </div>
     );
 };
