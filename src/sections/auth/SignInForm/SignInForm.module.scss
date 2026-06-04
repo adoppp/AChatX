@@ -1,0 +1,33 @@
+@use '@/styles/typography' as *;
+@use '@/styles/colors' as *;
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.signin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__container {
+        @include glassBg();
+
+        min-width: 280px;
+        max-width: 420px;
+        width: 100%;
+
+        padding: 16px 24px;
+        border-radius: $border-radius;    
+    }
+
+    &__inputs-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__button {
+        width: 100%;
+
+        margin-top: 36px;
+    }
+}
