@@ -1,5 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
-import { FirebaseError } from 'firebase/app';
+import { useState, type FormEvent } from 'react';
 
 import { emailRegex } from '@/constants/regex';
 import type {
@@ -9,47 +8,48 @@ import type {
     FormState,
 } from '@/sections/auth/SignUpForm/SignUpForm.types';
 import { signUpAuth, verifyByEmail } from '@/services/auth.service';
-import { useModalContext } from '@/components/Modal/ModalProvider';
-import { firebaseErrorMap } from '@/firebase/error.config';
 import { stepsData } from '@/sections/auth/SignUpForm/SignUpForm.config';
 import { useSignUpFormContext } from './SignUpFormProvider';
+import { useSignUpFormErrorHelper } from './SignUpForm.error.helper';
 
 const initialFormState: FormState = {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
 };
 
 const initialErrorsState: ErrorState = {
     username: null,
     email: null,
     password: {
-        isEightCharacters: false,
+        isEnoughCharacters: false,
         isOneUppercase: false,
         isOneLowercase: false,
         isOneNumber: false,
         isOneSpecialSymbol: false,
     },
+    confirmPassword: null
 };
 
 export const useSignUpForm = () => {
     const [formState, setFormState] = useState<FormState>(initialFormState);
     const [errorState, setErrorState] = useState<ErrorState>(initialErrorsState);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { openModal, closeModal } = useModalContext();
     const { step, _next } = useSignUpFormContext();
+    const handleError = useSignUpFormErrorHelper();
     const isPasswordValid = Object.values(errorState.password).every(Boolean);
     const ActiveStepComponent = stepsData[step].component;
 
     const canGoNext = () => {
         if (step === 1) {
             return Boolean(
-                !errorState.username && !errorState.email && formState.username && formState.email,
+                !errorState.username && !errorState.email && formState.username.trim() !== '' && formState.email.trim() !== '',
             );
         }
 
         if (step === 2) {
-            return Object.values(errorState.password).every(Boolean);
+            return Object.values(errorState.password).every(Boolean)  && !errorState.confirmPassword;
         }
 
         return true;
@@ -91,12 +91,16 @@ export const useSignUpForm = () => {
 
             case 'password':
                 return {
-                    isEightCharacters: value.length >= 8,
+                    isEnoughCharacters: value.length >= 12,
                     isOneUppercase: /[A-Z]/.test(value),
                     isOneLowercase: /[a-z]/.test(value),
                     isOneNumber: /[0-9]/.test(value),
                     isOneSpecialSymbol: /[^A-Za-z0-9]/.test(value),
                 };
+
+            case 'confirmPassword':
+                if (state[field].trim() !== state.password.trim()) return 'The password does not match';
+                return null;
 
             default:
                 return null;
@@ -123,25 +127,7 @@ export const useSignUpForm = () => {
 
                 _next();
             } catch (error: unknown) {
-                if (error instanceof FirebaseError) {
-                    openModal({
-                        type: 'error',
-                        modalProps: {
-                            title: 'Authentication Error',
-                            message: firebaseErrorMap[error.code] ?? firebaseErrorMap.default,
-                            button: { label: 'Ok', onClick: closeModal },
-                        },
-                    });
-                } else if (error instanceof Error) {
-                    openModal({
-                        type: 'error',
-                        modalProps: {
-                            title: 'Unexpected error',
-                            message: error.message,
-                            button: { label: 'Ok', onClick: closeModal },
-                        },
-                    });
-                }
+                handleError(error, 'Authentication Error')
             } finally {
                 setIsLoading(false);
             }

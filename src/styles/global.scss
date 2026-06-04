@@ -27,7 +27,7 @@
 
     --border-color: #2c3034;
 
-    // --accent-fog: #202835;
+    --accent-fog: rgba(var(--accent), 0.25);
 }
 
 :root[data-accent='lavender'] {

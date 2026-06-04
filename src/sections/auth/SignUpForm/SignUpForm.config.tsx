@@ -32,7 +32,6 @@ export const stepsData: StepsData = {
             description: 'All users can see your name and email',
         },
     },
-
     2: {
         component: Step.Password,
         progress: {
@@ -44,7 +43,6 @@ export const stepsData: StepsData = {
             description: 'Choose a strong password to secure your account',
         },
     },
-
     3: {
         component: Step.Verify,
         progress: {
@@ -55,12 +53,6 @@ export const stepsData: StepsData = {
             title: 'Verify your email',
             description: 'We have send verification link to your email',
         },
-    },
-    4: {
-        component: () => <div>12345</div>,
-        progress: {
-            progressTitle: 'Test',
-        }
     }
 } as const;
 

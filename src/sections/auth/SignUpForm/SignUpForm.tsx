@@ -23,11 +23,11 @@ export const SignUpForm: FC = () => {
 
     return (
         <div className={cn('signup')}>
-            <div className={cn('signup__content')}>
+            <div>
                 <Progress />
 
                 <Step isLoading={isLoading}>
-                    <Step.Header isActive={isPasswordValid} />
+                    <Step.Header isIconActive={isPasswordValid} />
                     <ActiveStepComponent
                         formState={formState}
                         errorState={errorState}
