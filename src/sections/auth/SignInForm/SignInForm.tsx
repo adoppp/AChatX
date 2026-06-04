@@ -5,6 +5,7 @@ import styles from '@/sections/auth/SignInForm/SignInForm.module.scss'
 import { Input } from "@/ui/Input/Input";
 import { InputPassword } from "@/ui/InputPassword/InputPassword";
 import { Button } from "@/ui/Button/Button";
+import { InputCheckbox } from "@/ui/InputCheckbox/InputCheckbox";
 
 interface FormState {
     email: string,
@@ -17,11 +18,12 @@ const cn = classNames.bind(styles);
 
 const initialFormState: FormState = {
     email: '',
-    password: ''
+    password: '',
 };
 
 export const SignInForm: FC = () => {
     const [formState, setFormState] = useState<FormState>(initialFormState);
+    const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
 
     const handleChange = (field: Field) => (value: string) => {
         setFormState(prev => ({...prev, [field]: value}))
@@ -44,7 +46,11 @@ export const SignInForm: FC = () => {
                         />
                     </div>
                     <div>
-                        
+                        <InputCheckbox 
+                            label="Remeber me"
+                            isChecked={isRememberMe}
+                            onChange={() => setIsRememberMe(!isRememberMe)}
+                        />
                     </div>
                     <Button customClassName={cn('signin__button')}>
                         Sign in
