@@ -60,7 +60,7 @@ export const signUpAuth = async ({
     return userCredentials.user;
 };
 
-export const signInAuth = async ({ email, password, rememberMe = false }: { email: string, password: string, rememberMe: boolean}): Promise<void> => {
+export const signInAuth = async (email: string, password: string, rememberMe: boolean = false): Promise<void> => {
     await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
 
     await signInWithEmailAndPassword(auth, email, password);

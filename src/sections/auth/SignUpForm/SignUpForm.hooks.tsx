@@ -101,7 +101,7 @@ export const useSignUpForm = () => {
                 };
 
             case 'confirmPassword':
-                if (state[field].trim() !== state.password.trim()) return 'The password does not match';
+                if (value !== state.password.trim()) return 'The password does not match';
                 return null;
 
             default:
